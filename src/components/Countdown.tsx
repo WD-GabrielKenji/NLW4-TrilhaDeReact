@@ -1,9 +1,12 @@
-import { useState, useEffect } from "react"; // Importe do State do React / funcionalidade useEffect - disparar um rook (um efeito colaterar), é ativado quando algo mudar ou algo acontecer ele executa uma função ou dispara um efeito colateral
+import { useState, useEffect, useContext } from "react"; // Importe do State do React / funcionalidade useEffect - disparar um rook (um efeito colaterar), é ativado quando algo mudar ou algo acontecer ele executa uma função ou dispara um efeito colateral
+import { ChallengesContext } from "../contexts/ChallengesContext";
 import styles from "../styles/components/Countdown.module.css"
 
 let countdownTimeout: NodeJS.Timeout; // Criando uma variavel com uma variavel global 
 
 export function Countdown() {
+    const { startNewChallenge } = useContext(ChallengesContext) // Apos fazer as tipagens em "ChallengesContextData" (la no arquivo "ChallengesContext.tsx") as informações tipadas são trazidas para esse componente
+    
     const [time, setTime] = useState(0.1 * 60) // Fazendo o Countdown é segundos
     const [isActive, setIsActive] = useState(false) // Fazendo um Estado para verificar se o countdown esta ativo ou desativado
     const [hasFinished, setHasFinished] = useState(false); // 
@@ -33,6 +36,7 @@ export function Countdown() {
         }  else if (isActive && time === 0){ // Quando o countdown for finalizado (chegar a 0)
             setHasFinished(true); // Passando um booleano - correspondendo que finalizou
             setIsActive(false); // Só por boa pratica: Só para mudar mesmo o valor do booleano do countdown passando que ele finzalizou só
+            startNewChallenge(); // Passando a função para iniciar um novo desafio quando o timer zerar
         }
     }, [isActive, time]) // Executando uma função sempre que o valor de "active" mudar de false -> true / Acrescentando o time - quer dizer vai ativar toda vez que o valor de active mudar e o tempo tbm (ou seja, ficara continuo)
 
