@@ -1,0 +1,29 @@
+.experienceBar {
+    display: flex;
+    align-items: center;
+} /* Estilização do ExperienceBar */ 
+
+.experience-Bar span {
+    font-size: 1rem;
+}
+
+.experienceBar > div{ /* "> div" faz pegar a div dentro da ExprienceBar*/
+    flex: 1; /* Permitindo a div ocupar a largura maxima dentro do container */
+    height: 4px;
+    border-radius: 4px;
+    background: var(--gray-line);
+    margin: 0 1.5rem; /* 1.5rem = 25 pixels no tamanho tradicional*/
+    position: relative;
+}
+
+.experienceBar > div > div{ /* Estilizando a <div> dentro de <div> </div>*/ 
+    height: 4px;
+    border-radius: 4px;
+    background: var(--green);
+}
+
+span.currentExperience {
+    position: absolute;
+    top: 12px;
+    transform: translateX(-50%); /* Deslocando o centro do posicionamento pelo vertice X */
+}
