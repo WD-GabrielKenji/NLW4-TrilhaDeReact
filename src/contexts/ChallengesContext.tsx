@@ -16,6 +16,7 @@ interface ChallengesContextData { // tipagem dados dados que estão sendo retorn
     activeChallenge: Challenge; // Definimos activeChallenge com a tipagem acima
     resetChallenge: () => void;
     experienceToNextLevel: number;
+    completeChallenge: () => void;
 }
 
 interface ChallengesPorviderProps {// Definimos a propriedade tipando o children (definimos os tipos do children)
@@ -48,6 +49,26 @@ export function ChallengesPorvider({ children }:ChallengesPorviderProps) { // Fu
         setActiveChallenge(null);
         }
 
+        function completeChallenge(){ // Função de completar o desafios
+            if (!activeChallenge){ // Essa função não pode ser chamada sem tem uma challenge ativa
+                return;
+            }
+
+            const { amount } = activeChallenge; // Pegando o valor do xp da challenge (Descrito lá no arquivo "challenges.json")
+
+            let finalExperience = currentExperience + amount; // Fazendo a adição do xp do usuario + o xp do desafio = no xp final
+
+            if (finalExperience >= experienceToNextLevel){
+                finalExperience = finalExperience - experienceToNextLevel; // Faz o calculo de xp entre o up de nivel (ou seja, xp final - o xp para upar = oq sobrou do calculo fica para o proximo level)
+                levelUp();
+            }
+
+            setCurrentExperience(finalExperience); // Passando o valor final do xp
+            setActiveChallenge(null); // Definindo um valor nulo ao desafio para ele deixar de existir ao ser finalizaado
+            setChallengesCompleted(challengesCompleted + 1) // Adicionando +1 ao valor dos desafios concluidos
+
+        }
+
         return (
 
         <ChallengesContext.Provider value={{ 
@@ -59,6 +80,7 @@ export function ChallengesPorvider({ children }:ChallengesPorviderProps) { // Fu
             activeChallenge,
             resetChallenge,
             experienceToNextLevel,
+            completeChallenge,
         }}>
             {children}
         </ChallengesContext.Provider>

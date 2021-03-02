@@ -1,44 +1,21 @@
-import { useState, useEffect, useContext } from "react"; // Importe do State do React / funcionalidade useEffect - disparar um rook (um efeito colaterar), é ativado quando algo mudar ou algo acontecer ele executa uma função ou dispara um efeito colateral
-import { ChallengesContext } from "../contexts/ChallengesContext";
+import { useContext } from "react"; // Importe do State do React / funcionalidade useEffect - disparar um rook (um efeito colaterar), é ativado quando algo mudar ou algo acontecer ele executa uma função ou dispara um efeito colateral
+import { CountdownContext } from "../contexts/CountdownContext";
+
 import styles from "../styles/components/Countdown.module.css"
 
-let countdownTimeout: NodeJS.Timeout; // Criando uma variavel com uma variavel global 
-
 export function Countdown() {
-    const { startNewChallenge } = useContext(ChallengesContext) // Apos fazer as tipagens em "ChallengesContextData" (la no arquivo "ChallengesContext.tsx") as informações tipadas são trazidas para esse componente
+    const { 
+        minutes, 
+        seconds, 
+        hasFinished, 
+        isActive, 
+        startCountdown, 
+        resetCountdown, 
+    } = useContext(CountdownContext) // Passando todos os valores do contexto do countdown para ca
     
-    const [time, setTime] = useState(0.1 * 60) // Fazendo o Countdown é segundos
-    const [isActive, setIsActive] = useState(false) // Fazendo um Estado para verificar se o countdown esta ativo ou desativado
-    const [hasFinished, setHasFinished] = useState(false); // 
-
-    const minutes = Math.floor(time / 60); // Converte o tempo em minutos
-    const seconds = time % 60; // Pega o valor o tempo de cima e o restante da divisão referindo aos segundos
-
+    // Não foi para dentro do contexto pois estamos formatando estes dados porque a parte visual necessita destes dados de uma maneira especifica (Quem esta exigindo estes dados é o layout e não a regra de negocio da aplicação, ou seja, o layout necessita de cada caracteres das string para formar os minutos e o segundos)
     const [minuteLeft, minuteRight] = String(minutes).padStart(2, '0').split(''); // Com o ".split('')" dividimos a String em caracteres (25 '2' '5') / ".padStart(2, '0')" verifica a String tem pelo menos 2 caracteres, se não tiver acrescenta um "0" no começo (padStart -> '5' -> '0' '5')
     const [secondLeft, secondRight] = String(seconds).padStart(2, '0').split('');
-
-    function startCountdown(){ //Função que inicia o contador
-        setIsActive(true);
-    }
-    
-    function resetCountdown(){ // Função para parar o Countdown
-        clearTimeout(countdownTimeout); // Limpando o tempo esgotado para cancelar o deplay de 1s para Encerrar a aplicação
-        setIsActive(false);
-        setTime(0.1 * 60); // Resetando o tempo quando o countdown for parada
-    }
-
-    // Para inicar o useEffect: ( 'oq deseja disparar', 'quando deseja executar' )
-    useEffect(() => {
-        if(isActive && time > 0){ // Se o countdown for ativo && timer for maior que 0
-            countdownTimeout = setTimeout(() =>{ // Passando o retorno da variavel tipada no "setTimeout" / "setTimeout" - é uma funcionabilidade que executa em um certo periodo de tempo / No caso executara em 1s:
-                setTime(time - 1); // Tirando 1s do tempo
-            }, 1000); // "1000" representa o delay 
-        }  else if (isActive && time === 0){ // Quando o countdown for finalizado (chegar a 0)
-            setHasFinished(true); // Passando um booleano - correspondendo que finalizou
-            setIsActive(false); // Só por boa pratica: Só para mudar mesmo o valor do booleano do countdown passando que ele finzalizou só
-            startNewChallenge(); // Passando a função para iniciar um novo desafio quando o timer zerar
-        }
-    }, [isActive, time]) // Executando uma função sempre que o valor de "active" mudar de false -> true / Acrescentando o time - quer dizer vai ativar toda vez que o valor de active mudar e o tempo tbm (ou seja, ficara continuo)
 
     return(
         <div>
