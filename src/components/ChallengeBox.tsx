@@ -9,13 +9,13 @@ export function ChallengeBox(){
     const { resetCountdown } = useContext(CountdownContext) // Pegando o contexto da função "resetCountdown" de dentro do "Countdown.tsx"
     
     function handChallengeFailed(){ // Função para o botão de "Falhei"
-            resetChallenge();
-            resetCountdown();
-        }
+        resetChallenge(); // Passando a função que reseta o desafio
+        resetCountdown(); // Passando a função para resetar o tempo   
+    }
 
     function handleChanllengeSucceeded(){ // Função para o botao de "Completei"
-        completeChallenge(); // Passando a função q Completa os Desafios
-         // Passando a função q Reseta o tempo
+        completeChallenge(); // Passando a função q Completa o Desafio
+        resetCountdown(); // Passando a função para resetar o tempo
     }
  
     return(
