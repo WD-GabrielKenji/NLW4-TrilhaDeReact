@@ -1,4 +1,4 @@
-import { createContext, useState, ReactNode } from 'react'; // Importamos de dentro do React o createContext
+import { createContext, useState, ReactNode, useEffect } from 'react'; // Importamos de dentro do React o createContext
 import challenges from '../../challenges.json' // Importando os desafios lá de dentro do arquivo "challenges.json"
 
 interface Challenge { // Fazemos uma tipagem para a challenge, para tipar o que tem dentro dela
@@ -34,6 +34,10 @@ export function ChallengesPorvider({ children }:ChallengesPorviderProps) { // Fu
 
     const experienceToNextLevel = Math.pow((level + 1) * 4, 2) // Calculo para o Proximo Level 
 
+        useEffect(() => {
+            Notification.requestPermission(); // Pedindo permissões para mandar notificações ao usuario
+        }, []) // Quando passamos um Array vaziu (, []) como segundo parametro, ele executara uma unica vez a primeira função (() => { codigo }) quando esse componente for exibido em tela
+
         function levelUp(){ // Funaão para aumentar o level
             setLevel(level + 1);
         }
@@ -43,6 +47,14 @@ export function ChallengesPorvider({ children }:ChallengesPorviderProps) { // Fu
             const challenge = challenges[randomChallengeIndex]; // Recebendo o desafio gerado aleatoriamento pelo "randomChallengeIndex"
             
             setActiveChallenge(challenge); // Passando a challenge random 
+
+            new Audio('/notification.mp3').play();
+
+            if (Notification.permission === 'granted') { // Se o usuario permitiu enviar notificações:
+                new Notification('Novo desafio', { // 'titulo'
+                    body: `Valendo ${challenge.amount}xp!` // body: 'descrição'
+                })
+            } // Docs para notificações: 
         }
 
         function resetChallenge(){
