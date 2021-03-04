@@ -22,7 +22,7 @@ export function CountdownProvider({children}: CountdownProviderProps){ // Serve 
     
     const { startNewChallenge } = useContext(ChallengesContext) // Apos fazer as tipagens em "ChallengesContextData" (la no arquivo "ChallengesContext.tsx") as informações tipadas são trazidas para esse componente
     
-    const [time, setTime] = useState(0.1 * 60) // Fazendo o Countdown é segundos
+    const [time, setTime] = useState(25 * 60) // Fazendo o Countdown é segundos
     const [isActive, setIsActive] = useState(false) // Fazendo um Estado para verificar se o countdown esta ativo ou desativado
     const [hasFinished, setHasFinished] = useState(false); // 
 
@@ -37,7 +37,7 @@ export function CountdownProvider({children}: CountdownProviderProps){ // Serve 
         clearTimeout(countdownTimeout); // Limpando o tempo esgotado para cancelar o deplay de 1s para Encerrar a aplicação
         setIsActive(false);
         setHasFinished(false); // Reseta o botão para iniciar um novo ciclo
-        setTime(0.1 * 60); // Resetando o tempo quando o countdown for parada
+        setTime(25 * 60); // Resetando o tempo quando o countdown for parada
     }
 
     // Para inicar o useEffect: ( 'oq deseja disparar', 'quando deseja executar' )
