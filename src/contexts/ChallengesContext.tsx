@@ -1,4 +1,5 @@
 import { createContext, useState, ReactNode, useEffect } from 'react'; // Importamos de dentro do React o createContext
+import Cookies from 'js-cookie';
 import challenges from '../../challenges.json' // Importando os desafios lá de dentro do arquivo "challenges.json"
 
 interface Challenge { // Fazemos uma tipagem para a challenge, para tipar o que tem dentro dela
@@ -21,22 +22,32 @@ interface ChallengesContextData { // tipagem dados dados que estão sendo retorn
 
 interface ChallengesPorviderProps {// Definimos a propriedade tipando o children (definimos os tipos do children)
     children: ReactNode; // ReactNode faz aceitar qualquer elemento filho para children (Podendo ser: componente, um texto, tag html ...) / Porem só para quando o children tambem é um Componente React podemos usar o ReactNode
+    level: number; // tipando as informações que precisam ser recebidas dentro do <ChallengeProvider> lá no arquivo do "index.tsx"
+    currentExperience: number;
+    challengesCompleted: number;
 }
 
 export const ChallengesContext = createContext({} as ChallengesContextData); // Definindo o valor inicial do contexto como ChallengesContextData (Dizendo que o contexto segue o formato inicial na tipagem)
 
-export function ChallengesPorvider({ children }:ChallengesPorviderProps) { // Função do contexto tipada
-    const [level, setLevel] = useState(1); // Criando um State que armazena a informação do Level (Começando no level 1)
-    const [currentExperience, setCurrentExperience] = useState(0); // Criando um State que armazena as informações da xp (Começa no xp 0)
-    const [challengesCompleted, setChallengesCompleted] = useState(0); // Criando um State que armazena as informações dos desafios completados (Começa em 0)
+
+export function ChallengesPorvider({ children, ...rest }:ChallengesPorviderProps) { // Função do contexto tipada / É um operador do JavaScript "...rest" é uma objeto que contem o restante das propriedades (que não forem a "children") e armazenar dentro de uma variavel
+    const [level, setLevel] = useState(rest.level ?? 1); // Criando um State que armazena a informação do Level (rest.level pega o valor do level aramazenado no Cookie e se não começa em 1)
+    const [currentExperience, setCurrentExperience] = useState(rest.currentExperience ?? 0); // Criando um State que armazena as informações da xp (rest.currentExperience pega o valor do xp aramazenado no Cookie e se não começa em 0)
+    const [challengesCompleted, setChallengesCompleted] = useState(rest.challengesCompleted ?? 0); // Criando um State que armazena as informações dos desafios completados (rest.challengesCompleted pega o valor do desafios completados aramazenado no Cookie e se não começa em 0)
     
     const [activeChallenge, setActiveChallenge] = useState(null); // Criando um State que armazena as informações das challenges
 
     const experienceToNextLevel = Math.pow((level + 1) * 4, 2) // Calculo para o Proximo Level 
 
-        useEffect(() => {
+        useEffect(() => { // Array de dependencias para a permissão de notificação
             Notification.requestPermission(); // Pedindo permissões para mandar notificações ao usuario
         }, []) // Quando passamos um Array vaziu (, []) como segundo parametro, ele executara uma unica vez a primeira função (() => { codigo }) quando esse componente for exibido em tela
+
+        useEffect(() => { // Array de dependencias do aramazenamento em Cookie:
+            Cookies.set('level', String(level)); // Salvando as informações de "level" / Necessario ser do tipo texto -> String !
+            Cookies.set('currentExperience', String(currentExperience)); // Salvando as informações de "currentExperience" / Necessario ser do tipo texto -> String !
+            Cookies.set('challengesCompleted', String(challengesCompleted)); // Salvando as informações de "challengesCompleted" / Necessario ser do tipo texto -> String !
+        }, [level, currentExperience, challengesCompleted]); // "level, currentExperience, challengesCompleted" (são as tres informações que estão sendo armazenadas dentro do Cookies) que ativa a função dentro da {}
 
         function levelUp(){ // Funaão para aumentar o level
             setLevel(level + 1);
