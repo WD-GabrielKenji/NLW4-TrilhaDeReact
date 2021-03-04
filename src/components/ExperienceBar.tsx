@@ -6,19 +6,19 @@ export function ExperienceBar(){ // Componente ExperienceBar
 
     const { currentExperience, experienceToNextLevel } = useContext(ChallengesContext) // Passando os valores de 'currentExperience' e 'experienceToNextLevel'
 
-    const percentToNextLevel = Math.round(currentExperience * 100) / experienceToNextLevel; // Progresso da barrinha em acompanhamento com o level
+    const percentToNextLevel = Math.round((currentExperience * 100) / experienceToNextLevel); // Progresso da barrinha em acompanhamento com o level
 
     return(
        <header className={styles.experienceBar}>
            <span>0 xp</span>  
                 <div> 
-                    <div style={{width: `${percentToNextLevel}%` }}/> 
+                    <div style={{width: `${percentToNextLevel}%` }}></div>
 
-                    <span className={styles.currentExperience} style={{ left: `${percentToNextLevel}` }}>
+                    <span className={styles.currentExperience} style={{ left: `${percentToNextLevel}%` }}>
                         {currentExperience} xp
                     </span>
                 </div>
-           <span> {experienceToNextLevel} xp</span>
+           <span> {experienceToNextLevel} xp </span>
        </header> 
     ); // Para colocar as definições dos styles para o elemento, utilizamos: className={'nome da importação'.'Nome da classe (definido lá no arquivo proprio do CSS desse componente)'}
       // Fazendo a interpolação para a barrinha acompanhar o level com `${percentToNextLevel}`

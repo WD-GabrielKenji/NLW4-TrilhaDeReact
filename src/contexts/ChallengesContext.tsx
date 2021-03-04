@@ -1,6 +1,7 @@
 import { createContext, useState, ReactNode, useEffect } from 'react'; // Importamos de dentro do React o createContext
 import Cookies from 'js-cookie';
 import challenges from '../../challenges.json' // Importando os desafios lá de dentro do arquivo "challenges.json"
+import { LevelUpModal } from '../components/LevelUpModal';
 
 interface Challenge { // Fazemos uma tipagem para a challenge, para tipar o que tem dentro dela
     type: 'body' | 'eye';
@@ -18,6 +19,7 @@ interface ChallengesContextData { // tipagem dados dados que estão sendo retorn
     resetChallenge: () => void;
     experienceToNextLevel: number;
     completeChallenge: () => void;
+    closeLevelUpModal: () => void;
 }
 
 interface ChallengesPorviderProps {// Definimos a propriedade tipando o children (definimos os tipos do children)
@@ -36,6 +38,7 @@ export function ChallengesPorvider({ children, ...rest }:ChallengesPorviderProps
     const [challengesCompleted, setChallengesCompleted] = useState(rest.challengesCompleted ?? 0); // Criando um State que armazena as informações dos desafios completados (rest.challengesCompleted pega o valor do desafios completados aramazenado no Cookie e se não começa em 0)
     
     const [activeChallenge, setActiveChallenge] = useState(null); // Criando um State que armazena as informações das challenges
+    const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false); // Criando um State que armazena as informações do LevelUp defino inicialmente como desativado
 
     const experienceToNextLevel = Math.pow((level + 1) * 4, 2) // Calculo para o Proximo Level 
 
@@ -51,6 +54,11 @@ export function ChallengesPorvider({ children, ...rest }:ChallengesPorviderProps
 
         function levelUp(){ // Funaão para aumentar o level
             setLevel(level + 1);
+            setIsLevelUpModalOpen(true); // Ativando o modal do levelUp
+        }
+
+        function closeLevelUpModal(){
+            setIsLevelUpModalOpen(false); // Para fechar o modal de levelUp
         }
 
         function startNewChallenge(){
@@ -104,11 +112,16 @@ export function ChallengesPorvider({ children, ...rest }:ChallengesPorviderProps
             resetChallenge,
             experienceToNextLevel,
             completeChallenge,
+            closeLevelUpModal,
         }}>
             {children}
+
+            { isLevelUpModalOpen && <LevelUpModal /> } 
+
         </ChallengesContext.Provider>
 
         );
         // "Provider" - Faz com que todos os elementos dentro do Provider tenham acesso aos dados (level, currentExperience, challengesCompleted, função levelUp e a função startNewChallenge) dentro do contexto 
+        // "{ isLevelUpModalOpen && <LevelUpModal /> }" se for isLevelUpModalOpen ele apresentara oq esta dentro do <LevelUpModal />
 } 
 

@@ -3,7 +3,7 @@
     align-items: center;
 } /* Estilização do ExperienceBar */ 
 
-.experience-Bar span {
+.experienceBar span {
     font-size: 1rem;
 }
 
@@ -22,7 +22,7 @@
     background: var(--green);
 }
 
-span.currentExperience {
+.experienceBar > div span.currentExperience {
     position: absolute;
     top: 12px;
     transform: translateX(-50%); /* Deslocando o centro do posicionamento pelo vertice X */

@@ -2,7 +2,7 @@
     height: 100vh; /* "vh (Viewport Height)" Faz com que o container ocupe 100% da altura da tela disponivel */
     max-width: 992px;
     margin: 0 auto;
-    padding: 2.5rem;
+    padding: 2.5rem 2rem;
 
     display: flex;
     flex-direction: column; /* Deixa os elementes proximos elementos um baixo do outro apos a ExprienceBar */
