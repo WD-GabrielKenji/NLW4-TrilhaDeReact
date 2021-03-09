@@ -146,10 +146,7 @@ Esse projeto esta sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mai
  <sub><b>Gabriel Kenji Poli Ozaki</b></sub></a> <a href="https://github.com/WD-GabrielKenji" title="Perfil Github"> :star2: 
 </a>
 
-
 Feito de ❤️ por Gabriel Kenji 👋🏽
-
-<div align="right">
 
 ### :mailbox_with_mail: <strong id="contato"> Redes Sociais para Contato: </strong>
 
@@ -158,5 +155,3 @@ Feito de ❤️ por Gabriel Kenji 👋🏽
 [![Linkedin Badge](https://img.shields.io/badge/-Gabriel_Kenji_Poli_Ozaki-0e76a8?style=flat&labelColor=0e76a8&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/wdkenji/)  [![Mail Badge](https://img.shields.io/badge/-@biel.kenjii-C63381?style=flat&labelColor=C63381&logo=instagram&logoColor=white)](https://www.instagram.com/biel.kenjii/)  [![Mail Badge](https://img.shields.io/badge/-g.kenjiJS-c0392b?style=flat&labelColor=c0392b&logo=gmail&logoColor=white)](mailto:g.kenjiJS@gmail.com)
 
 [![GitHub followers](https://img.shields.io/github/followers/WD-GabrielKenji.svg?style=social&label=Follow&maxAge=2592000)](https://github.com/WD-GabrielKenji)
-
-</div>
